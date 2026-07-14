@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance for Melior Flask app
+After=network.target
+
+[Service]
+User=azureuser
+Group=azureuser
+WorkingDirectory=/home/azureuser/projects/melior
+Environment="PATH=/home/azureuser/projects/melior/venv/bin"
+ExecStart=/home/azureuser/projects/melior/venv/bin/gunicorn --workers 2 --bind 0.0.0.0:5000 app.main:app
+
+[Install]
+WantedBy=multi-user.target
