@@ -31,7 +31,7 @@
   <div id="api-message">Loading message from API...</div>
 
   <script>
-    fetch("http://52.140.61.104:5000/")
+    fetch("/api/")
       .then(res => res.json())
       .then(data => {
         document.getElementById("api-message").innerText = data.message;
