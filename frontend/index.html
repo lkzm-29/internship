@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Melior — DevSecOps Internship</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 { color: #38bdf8; }
+    #api-message {
+      margin-top: 20px;
+      padding: 15px 25px;
+      background: #1e293b;
+      border-radius: 8px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Melior Project</h1>
+  <p>Frontend hosted on Nginx</p>
+  <div id="api-message">Loading message from API...</div>
+
+  <script>
+    fetch("http://52.140.61.104:5000/")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("api-message").innerText = data.message;
+      })
+      .catch(() => {
+        document.getElementById("api-message").innerText = "Could not reach API.";
+      });
+  </script>
+</body>
+</html>
