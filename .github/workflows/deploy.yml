@@ -27,6 +27,11 @@ jobs:
         run: |
           python -c "from app.main import app; print('Flask app loaded successfully')"
 
+      - name: Dependency vulnerability scan
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt
+
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
@@ -39,7 +44,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-
           script: |
             cd /home/azureuser/projects/melior
             git pull origin main
@@ -47,3 +51,16 @@ jobs:
             pip install -r requirements.txt
             sudo systemctl restart melior
             sudo systemctl reload nginx
+
+      - name: Verify deployment is live
+        run: |
+          for i in {1..5}; do
+            if curl -sf https://melior-project.duckdns.org > /dev/null; then
+              echo "✅ Site responded successfully"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying in 5s..."
+            sleep 5
+          done
+          echo "❌ Site did not respond after deploy"
+          exit 1
