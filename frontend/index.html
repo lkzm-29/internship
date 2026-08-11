@@ -1,44 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Melior — DevSecOps Internship</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #f1f5f9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    h1 { color: #38bdf8; }
-    #api-message {
-      margin-top: 20px;
-      padding: 15px 25px;
-      background: #1e293b;
-      border-radius: 8px;
-      font-size: 1.1em;
-    }
-  </style>
-</head>
-<body>
-  <h1>Melior Project</h1>
-  <p>Frontend hosted on Nginx</p>
-  <div id="api-message">Loading message from API...</div>
-
-  <script>
-    fetch("/api/")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("api-message").innerText = data.message;
-      })
-      .catch(() => {
-        document.getElementById("api-message").innerText = "Could not reach API.";
-      });
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Melior</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

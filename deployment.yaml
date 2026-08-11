@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+  labels:
+    app: react-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      imagePullSecrets:
+        - name: acr-secret
+      containers:
+        - name: react-app
+          image: meliorregistry2026.azurecr.io/melior:2
+          ports:
+            - containerPort: 5000
