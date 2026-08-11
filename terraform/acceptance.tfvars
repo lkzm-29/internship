@@ -1,0 +1,2 @@
+environment = "acceptance"
+location    = "centralus"
