@@ -1,0 +1,39 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  acrName: 'meliorregistry2026new'
+  imageName: 'melior'
+  appServiceName: 'melior-app-v2'
+  resourceGroup: 'melior-migrated-rg'
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildAndPush
+    steps:
+    - task: Docker@2
+      displayName: 'Build and push image to ACR'
+      inputs:
+        containerRegistry: 'melior-new-subscription'
+        repository: '$(imageName)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          latest
+
+- stage: Deploy
+  dependsOn: Build
+  jobs:
+  - job: DeployToAppService
+    steps:
+    - task: AzureWebAppContainer@1
+      displayName: 'Deploy to Azure App Service'
+      inputs:
+        azureSubscription: 'melior-new-subscription'
+        appName: '$(appServiceName)'
+        containers: '$(acrName).azurecr.io/$(imageName):$(Build.BuildId)'
